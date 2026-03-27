@@ -9,9 +9,9 @@ It includes all important programs, concepts, and assignments required for acade
 
 📂 Folder Structure
 
-Data-Structures-Lab/
+Data-Structures-Lab🌍
 │
-├── Unit-1/
+├── Unit-1 👇
 │   ├── stack_adt.py
 │   ├── complexity_analysis.py
 │   ├── factorial_recursion.py
@@ -19,7 +19,7 @@ Data-Structures-Lab/
 │   ├── tower_of_hanoi.py
 │   └── binary_search.py
 │
-├── Unit-2/
+├── Unit-2👇
 │   ├── array_operations.py
 │   ├── matrix_operations.py
 │   ├── dynamic_array.py
@@ -74,8 +74,8 @@ Key Concepts
 
 ⚙️ Technologies Used
 
-- Python (or C/C++ depending on your implementation)
-- Data Structures & Algorithms
+- Python 
+- Data Structures 
 
 ---
 
