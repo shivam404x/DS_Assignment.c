@@ -1,106 +1,122 @@
 
-# ARRAY 1D (OPERATIONS + SHIFTING COST)
+# 1D ARRAY OPERATIONS (INSERT / DELETE + SHIFT COST)
 
-# UNDERSTANDING HOW TO INSERT/DELETE IN ARRAYS CAUSES SHIFTING AND IMPACTS COMPLEXITY.
+# Idea:
+# Array me insert/delete karte time elements shift hote hain,
+# aur wahi time complexity ko affect karta hai.
 
-# 1-D ARRAY : A one-dimensional (1D) array is a linear data structure that
-#             stores a sequence of elements of the same data type in contiguous memory locations, 
-#             accessed using a single index (subscript).
+# ------------------ PRINT FUNCTION ------------------
 
-# ANSWER : 
+def show_array(arr):
+    print(" ".join(str(x) for x in arr))
 
-def print_array(arr): # defining a print_array function
-    # map(str,arr) : converts numbers from int form to string form in a list [10,12]->['10','12']
-    # ' '.join() : connects the string formed in map to string with spaces ('10 20')
-    # and printing the final output
-    print(' '.join(map(str, arr)))
 
-# making and insert_at function : that will insert an element at a specific index.
-# this takes four inputs : arr(current array),pos(0-index to insert at),value(number to add),
-# max_capacity(checks overflow of a fixed length array)
+# ------------------ INSERT FUNCTION ------------------
 
-def insert_at(arr, pos, value, max_capacity):
-    n = len(arr)  # calculating the current length of the array
+def insert_element(arr, index, value, capacity):
 
-    # the following if statements checks that whether the length of the array
-    # have reached the max capacity or inputted invalid position (negative index) or out of range index.
-    if n == max_capacity or pos < 0 or pos > n:  
-        print("Insertion not possible")
-        return arr, 0   # return the unchanged array
-    
-    shifts = n - pos  # Exact shift count - calculates how many logical shifts needed
-    new_arr = arr[:pos] + [value] + arr[pos:] # creating a new array where we are adding
-    # array before pos + value + array after pos.
-    return new_arr, shifts # returning new array and no of shifts done.
+    length = len(arr)
 
-# making a delete_at function that will delete and element from a specific index 
-# it takes two inputs : arr(list),pos(index of element to remove)
-def delete_at(arr, pos):
-    n = len(arr)  # calculating the current length of an array
+    # invalid cases
+    if length >= capacity or index < 0 or index > length:
+        print("Insert failed")
+        return arr, 0
 
-    # the following if statements checks that whether the length of the array
-    # is zero or inputted invalid position (negative index) or out of range index.
-    if n == 0 or pos < 0 or pos >= n:
-        print("Deletion not possible")
-        return arr, 0   # return the unchanged array
-    
-    shifts = n - pos - 1  
-    # Exact shift count : calculates the number of logical shifts (elements after pos move left)
-    new_arr = arr[:pos] + arr[pos+1:]  # creating a new array skipping the element at pos
-    return new_arr, shifts  # returning new array and no of shifts done.
+    # number of shifts required
+    shift_count = length - index
 
-# defining a function print_complexity that will print the time complexity
-# and takes pos(position), n(length of the array) and is_insert(True for insert, False for delete)
-def print_complexity(pos, n, is_insert):
+    # new array create karke insert karna
+    updated = arr[:index] + [value] + arr[index:]
 
-    if is_insert: # if True
+    return updated, shift_count
 
-        # print O(1) if pos==n and otherwise O(n) due to shifting
-        print("Complexity: O(1)" if pos == n else "Complexity: O(n) (shifting)")
 
-    else: # if False
+# ------------------ DELETE FUNCTION ------------------
 
-        # print O(1) if pos==n-1 and otherwise O(n) due to shifting
-        print("Complexity: O(1)" if pos == n-1 else "Complexity: O(n) (shifting)")
+def delete_element(arr, index):
 
-# Main demo - testing the code with an example
+    length = len(arr)
+
+    # invalid cases
+    if length == 0 or index < 0 or index >= length:
+        print("Delete failed")
+        return arr, 0
+
+    # shifts = elements after index move left
+    shift_count = length - index - 1
+
+    updated = arr[:index] + arr[index + 1:]
+
+    return updated, shift_count
+
+
+# ------------------ COMPLEXITY DISPLAY ------------------
+
+def complexity_info(index, length, inserting):
+
+    if inserting:
+        if index == length:
+            print("Time Complexity: O(1)")
+        else:
+            print("Time Complexity: O(n) due to shifting")
+
+    else:
+        if index == length - 1:
+            print("Time Complexity: O(1)")
+        else:
+            print("Time Complexity: O(n) due to shifting")
+
+
+# ------------------ DEMO ------------------
+
 arr = [10, 20, 30, 40, 50]
-max_capacity = 100
-print("Initial array:")
-print_array(arr)
+capacity = 100
 
-# All operations
-print("\nInsert START:")
-arr, shifts = insert_at(arr, 0, 5, max_capacity)
-print("Updated:", end=' ')
-print_array(arr)
-print(f"Shifts: {shifts}")
-print_complexity(0, 5, True)
+print("Initial Array:")
+show_array(arr)
 
-print("\nInsert MIDDLE:")
-arr, shifts = insert_at(arr, len(arr)//2, 99, max_capacity)
-print("Updated:", end=' ')
-print_array(arr)
-print(f"Shifts: {shifts}")
-print_complexity(2, 6, True)
 
-print("\nInsert END:")
-arr, shifts = insert_at(arr, len(arr), 999, max_capacity)
-print("Updated:", end=' ')
-print_array(arr)
-print(f"Shifts: {shifts}")
-print_complexity(6, 7, True)
+# Insert at beginning
+print("\nInsert at beginning:")
+arr, moves = insert_element(arr, 0, 5, capacity)
+print("Array:", end=" ")
+show_array(arr)
+print("Shifts:", moves)
+complexity_info(0, 5, True)
 
-print("\nDelete START:")
-arr, shifts = delete_at(arr, 0)
-print("Updated:", end=' ')
-print_array(arr)
-print(f"Shifts: {shifts}")
-print_complexity(0, 7, False)
 
-print("\nDelete END:")
-arr, shifts = delete_at(arr, len(arr)-1)
-print("Updated:", end=' ')
-print_array(arr)
-print(f"Shifts: {shifts}")
-print_complexity(5, 6, False)
+# Insert in middle
+print("\nInsert in middle:")
+mid = len(arr) // 2
+arr, moves = insert_element(arr, mid, 99, capacity)
+print("Array:", end=" ")
+show_array(arr)
+print("Shifts:", moves)
+complexity_info(mid, 6, True)
+
+
+# Insert at end
+print("\nInsert at end:")
+arr, moves = insert_element(arr, len(arr), 999, capacity)
+print("Array:", end=" ")
+show_array(arr)
+print("Shifts:", moves)
+complexity_info(len(arr)-1, 7, True)
+
+
+# Delete from beginning
+print("\nDelete from beginning:")
+arr, moves = delete_element(arr, 0)
+print("Array:", end=" ")
+show_array(arr)
+print("Shifts:", moves)
+complexity_info(0, 7, False)
+
+
+# Delete from end
+print("\nDelete from end:")
+arr, moves = delete_element(arr, len(arr)-1)
+print("Array:", end=" ")
+show_array(arr)
+print("Shifts:", moves)
+complexity_info(len(arr)-1, 6, False)
