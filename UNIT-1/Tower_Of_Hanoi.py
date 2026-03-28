@@ -1,61 +1,62 @@
 
-# TOWER OF HANOI (N=3 TRACE + COMPLEXITY)
+# TOWER OF HANOI (RECURSION + MOVE COUNT)
 
-# Tower of Hanoi is a simple game:
+# Basic idea:
+# 3 rods → Source, Helper, Destination
+# Har step me chhote disks ko move karke bada disk shift karte hain
 
-# 3 rods (A, B, C) + some circles of different sizes (disks)
+# ------------------ MAIN FUNCTION ------------------
 
-# START: All circles stacked on rod A (biggest at bottom, smallest at top)
-# GOAL: Move ALL circles to rod C (same order)
+def solve_hanoi(n, source, helper, destination):
 
-# 3 SIMPLE rules:
-# 1. Move only 1 circle at a time
-# 2. NEVER put bigger circle on smaller circle
-# 3. Can only move the topmost circle from any rod
+    # base case
+    if n == 1:
+        print(f"Disk 1: {source} → {destination}")
+        return
 
-# MINIMUN 2^N-1 MOVES ARE REQUIRED
+    # step 1: n-1 disks helper par bhejo
+    solve_hanoi(n-1, source, destination, helper)
 
+    # step 2: sabse bada disk move karo
+    print(f"Disk {n}: {source} → {destination}")
 
-def hanoi(n, src, aux, dst): # DEFINING THE MAIN FUNCTION
-    # n = disks count
-    # src = source rod
-    # aux = helper rod
-    # dst = destination rod
-
-    if n == 1:  # BASE CASE : IF ONLY 1 DISK LEFT
-        # DIRECT MOVE(NO RECURSSION NEEDED) - SINGLE FRAME ONLY
-        print(f"Move disk 1 from {src} to {dst}")  # PRINT SINGLE DISK MOVE
-        return   # EXIT BASE CASE, NO RECURSION NEEDED
-    
-    hanoi(n-1, src, dst, aux)  # FIRST RECURSSIVE CALL
-    print(f"Move disk {n} from {src} to {dst}")  # LARGEST DISK MOVED
-    hanoi(n-1, aux, src, dst)  # SECOND RECURSSIVE CALL 
+    # step 3: helper se destination par shift karo
+    solve_hanoi(n-1, helper, source, destination)
 
 
-print("=== TOWER OF HANOI n=3 (7 moves) ===")  # EXAMPLE
-hanoi(3, 'A', 'B', 'C')  # MAIN FUNCTION CALL
+# ------------------ DEMO ------------------
 
-move_count = [0]  # LIST : MUTABLE COUNTER 
-
-def hanoi_count(n, src, aux, dst, count): # DEFINING HANOI COUNTER FUNCTION
-
-    if n == 1:  # BASE CASE 
-        count[0] += 1  # COUNT BASE CASE MOVES - INCREMENT MOVE COUNTER
-        return  # EXIT BASE CASE
-    
-    hanoi_count(n-1, src, dst, aux, count)  # RECURSE : MOVE N-1 TO AUX
-    hanoi_count(n-1, aux, src, dst, count)  # RECURSE : MOVE N-1 TO DEST
+print("=== Hanoi Demo (n = 3) ===")
+solve_hanoi(3, "A", "B", "C")
 
 
-print("\n=== MOVE COUNT n=4 ===")  # PRINTING MESSAGE
+# ------------------ MOVE COUNT ------------------
 
-move_count[0] = 0  # RESET COUNTER TO 0
-hanoi_count(4, 'A', 'B', 'C', move_count)  # COUNT MOVES FOR N=4
-print(f"n=4 needs {move_count[0]} moves")  # PRINTING RESULT
+def count_moves(n, counter):
+
+    # base case
+    if n == 1:
+        counter[0] += 1
+        return
+
+    # recursion
+    count_moves(n-1, counter)
+    counter[0] += 1
+    count_moves(n-1, counter)
 
 
-print("\n=== COMPLEXITY ===")
+print("\n=== Move Count (n = 4) ===")
 
+moves = [0]
+count_moves(4, moves)
+
+print("Total moves:", moves[0])
+
+
+# ------------------ COMPLEXITY ------------------
+
+print("\n=== Complexity Info ===")
 print("Time Complexity: O(2^n)")
-print("n=1: 1 move, n=2: 3 moves, n=3: 7 moves, n=4: 15 moves")  # PATTERN PROOF
-print("Pattern: 2^n - 1 = EXPONENTIAL GROWTH!")  # MATHEMATICAL FORMULA
+print("Moves follow pattern → 1, 3, 7, 15, ...")
+print("Formula: (2^n) - 1")
+print("Reason: har step me problem 2 parts me break hoti hai")
