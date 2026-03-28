@@ -1,24 +1,30 @@
 
-# RECURSSIVE FACTORIAL
+# RECURSIVE FACTORIAL :-
 
-# BASE CASE : SIMPLEST PROBLEM THAT RETURNS ANSWER DIRECTLY
-# RECURSSIVE CASE : PROBLEM SOLVED BY CALLING ITSELF WITH SMALLER INPUT
-# STACK GROWTH : EACH RECURSSIVE CALL ADDS TO STACK FRAME
+# Factorial ka matlab:
+# n! = n × (n-1) × (n-2) × ... × 1
 
-def factorial(n): # function defination
+def fact(n):
 
-    if n<0:  # handling the negative inputs
-        print("Please Enter a positive number !")
+    # invalid input check
+    if n < 0:
+        print("Negative number ka factorial define nahi hota ❌")
         return None
-    
-    elif n==0 or n==1:   # base case
+
+    # base case
+    if n == 0 or n == 1:
         return 1
-    
-    else:  # recurssive case
-        return n*factorial(n-1)
 
-print("Factorial :")    
+    # recursive step
+    return n * fact(n - 1)
 
-# calling the function and taking an input from the user
-print(factorial(int(input("Enter any number :"))))  
 
+# ------------------ USER INPUT ------------------
+
+print("=== Factorial Calculator ===")
+
+num = int(input("Enter a number: "))
+
+result = fact(num)
+
+print("Result:", result)
