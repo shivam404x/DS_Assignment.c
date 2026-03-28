@@ -1,92 +1,96 @@
+# STACK ADT IMPLEMENTATION USING LIST :-
 
-# STACK ADT IMPLEMENTATION :
+# Stack = LIFO (Last In First Out)
 
-# This is a program implementing the StackADT operations as mentioned.
+class Stack:
 
-class StackADT:  # defining the class
+    def __init__(self):
+        self.items = []
 
-    def __init__(self):  # defining the init method
-        self.data=[]
+    # push operation
+    def push(self, value):
+        self.items.append(value)
 
-    def push(self,x):   # defining the push operation
-        self.data.append(x)
+    # pop operation
+    def pop(self):
+        if self.empty():
+            return None
+        return self.items.pop()
 
-    def pop(self):  # defining the pop operation
-        if self.isEmpty():   # checking the stack underflow condition   
-            return None  
-        else:
-            return self.data.pop()
-        
-    def peek(self):  # defining the peek operation
-        if self.isEmpty():  # checking the stack underflow condition
-            return None  
-        else:
-            return self.data[-1]
-        
-    def size(self):   # defining the size function
-        return len(self.data)
-    
-    def isEmpty(self):   # defining the isEmpty function
-        return len(self.data)==0
-    
-    def display(self):   # defining the display function
-        return self.data
-     
+    # top element dekhna
+    def top(self):
+        if self.empty():
+            return None
+        return self.items[-1]
 
-def main():  # defining the main function
+    # stack empty hai ya nahi
+    def empty(self):
+        return len(self.items) == 0
 
-    stk=StackADT()  # creating an object of the class
+    # total elements
+    def length(self):
+        return len(self.items)
 
-    while True:  # running the while loop till the conditions are True
+    # pura stack print
+    def show(self):
+        return self.items
 
-        # printing the stack ADT menu
-        print("-----------------------------------")
-        print("StackADT Menu ...")
+
+# ------------------ MENU DRIVER ------------------
+
+def start():
+
+    s = Stack()
+
+    while True:
+
+        print("\n====== STACK MENU ======")
         print("1. Push")
         print("2. Pop")
-        print("3. Peek")
-        print("4. isEmpty")
-        print("5. Display")
+        print("3. Top")
+        print("4. Check Empty")
+        print("5. Show Stack")
         print("6. Size")
         print("7. Exit")
-        print("-----------------------------------")
 
-        choice=input("Enter your choice :").strip() # taking the choice as an input from the user
+        ch = input("Choose option: ").strip()
 
-        if choice=="1":   # push operation if choice is 1
-            value=input("Enter your value :")
-            stk.push(value)
-            print(value, " Pushed Successfully !")
+        if ch == "1":
+            val = input("Enter value: ")
+            s.push(val)
+            print("✔ Value added")
 
-        elif choice=="2":   # pop operation if choice is 2
-            if stk.isEmpty():
-                print("Stack Underflow !")
+        elif ch == "2":
+            removed = s.pop()
+            if removed is None:
+                print("❌ Stack is empty (Underflow)")
             else:
-                print(stk.pop()," Popped Successfully !")
+                print(f"✔ Removed: {removed}")
 
-        elif choice=="3":  # peek operation if choice is 3
-            if stk.isEmpty():
-                print("Stack Underflow !")
+        elif ch == "3":
+            t = s.top()
+            if t is None:
+                print("❌ Stack is empty")
             else:
-                print(stk.peek()," Is the TOP of the Stack !")
+                print(f"Top element: {t}")
 
-        elif choice=="4":  # checking the stack is empty or not
-            print("Is the Stack Empty ? : \n",stk.isEmpty())
+        elif ch == "4":
+            print("Empty hai kya?", s.empty())
 
-        elif choice=="5":  # displaying the stack if choice is 5
-            print("The Stack is :", stk.display())
+        elif ch == "5":
+            print("Stack content:", s.show())
 
-        elif choice=="6":  # displaying the length of the stack is choice is 6
-            print("The length of the stack is : \n",stk.size())
+        elif ch == "6":
+            print("Total elements:", s.length())
 
-        elif choice=="7":  # exiting the loop if choice is 7
-            print("Exiting .... Thanks FOr visiting 🙏 !!!")
+        elif ch == "7":
+            print("Program closed 👍")
             break
 
-        else: # else condition for managing some invalid inputs
-            print("Invalid Input !!")
-            print("Please enter a valid choice !")
+        else:
+            print("⚠ Invalid option, try again")
 
 
-if __name__=="__main__":
-    main()    # calling the main function
+# program start
+if __name__ == "__main__":
+    start()
