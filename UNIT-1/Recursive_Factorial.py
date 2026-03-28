@@ -8,7 +8,7 @@ def fact(n):
 
     # invalid input check
     if n < 0:
-        print("Negative number ka factorial define nahi hota ❌")
+        print("Negative number ka factorial define nahi hota ")
         return None
 
     # base case
