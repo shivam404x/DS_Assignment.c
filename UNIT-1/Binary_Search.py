@@ -8,7 +8,7 @@ def binary_search(arr, target, start, end):
 
     # Base Case 1: agar range invalid ho gayi (element nahi mila)
     if start > end:
-        print(f"{target} array me nahi mila ❌")
+        print(f"{target} array me nahi mila ")
         return -1
 
     # Middle index nikalna (safe formula)
@@ -19,7 +19,7 @@ def binary_search(arr, target, start, end):
 
     # Base Case 2: element mil gaya
     if arr[mid] == target:
-        print(f"{target} mil gaya at index {mid} ✅")
+        print(f"{target} mil gaya at index {mid} ")
         return mid
 
     # Agar target chhota hai → left side me search
@@ -31,7 +31,7 @@ def binary_search(arr, target, start, end):
         return binary_search(arr, target, mid + 1, end)
 
 
-# ================== TESTING ==================
+# ---------------- TESTING -----------------
 
 print("==== Binary Search Test ====")
 
@@ -51,7 +51,7 @@ result = binary_search(empty, 3, 0, len(empty)-1)
 print("Result Index:", result)
 
 
-# ================== TIME COMPLEXITY ==================
+# ------------------------TIME COMPLEXITY ---------------------
 
 print("\n==== Time Complexity ====")
 
