@@ -1,180 +1,116 @@
+# VIVA QUESTIONS 
 
-#  🎯 VIVA QUESTIONS 
+=============================
+STACK (ADT)
+=============================
 
+1. What is an ADT?
+An Abstract Data Type (ADT) is a model that describes data and the operations that can be performed on it, without explaining how they are implemented.
+In a stack:
+Data → collection of elements  
+Operations → push(), pop(), peek(), isEmpty(), size()
 
-## ➡️ StackADT
+2. Why are push and pop O(1)?
+Push and pop are constant time operations because they work only at the top of the stack.
+They do not require scanning or shifting elements, so the number of steps remains fixed.
 
-## 1. What is an ADT?
+3. One real-world use of a stack
+A common example is the browser back feature.
+Each visited page is stored, and when you press back, the most recent page is removed first (LIFO behavior).
 
-**Answer** ADT (Abstract Data Type) is a mathematical model that defines data + operations on that data without specifying implementation details.
-**Stack ADT defines:**
-**DATA:** Collection of items
-**OPERATIONS:** push(), pop(), peek(), isEmpty(), size()
+=============================
+COMPLEXITY BASICS
+=============================
 
+1. Big-O vs Big-Theta
+Big-O represents the upper bound (worst-case limit) of an algorithm.  
+Big-Theta represents the exact growth rate (tight bound).  
+If an algorithm is Θ(f(n)), it is also O(f(n)), but not always the reverse.
 
-## 2. Why push/pop can be O(1)?
+2. What does worst-case represent?
+Worst-case means the maximum time or space an algorithm may require for any possible input.
+For example, in linear search, if the element is at the end or not present, all elements must be checked → O(n).
 
-**Answer** Push and pop operations have O(1) time complexity because they work only at the array's END using direct index access, requiring a constant number of steps (2-3 operations) regardless of stack size.
+3. Why complexity matters in real systems
+Complexity decides whether a system can handle large inputs efficiently.
+For large data:
+O(n²) → extremely slow  
+O(n log n) → manageable  
+Efficient algorithms are necessary for scalable applications.
 
+=============================
+RECURSIVE FACTORIAL
+=============================
 
-## 3. One real-world use of stack?
+1. What is recursion depth?
+Recursion depth is the number of function calls stacked before reaching the base case.
+Example: factorial(5) creates 5 calls before stopping.
 
-**Answer** Browser back button uses a stack for navigation history. Every page you visit gets pushed onto the stack, and the back button pops the most recent one.
+2. Why does recursion use stack memory?
+Each recursive call creates a new stack frame containing variables and return information.
+These frames follow the LIFO order (last call finishes first).
 
+3. When is iteration better than recursion?
+Iteration is preferred when:
+- Input size is large
+- Memory usage must be low
+- Performance is critical  
+Loops avoid stack overflow and reduce overhead.
 
-## ➡️ Complexity Drill
+=============================
+FIBONACCI
+=============================
 
-## 1. Big-O vs Big-Theta difference?
+1. Why is naive Fibonacci slow?
+Because it repeatedly calculates the same values, leading to a large number of duplicate computations.
+This results in exponential time complexity.
 
-**Answer**  **Big-O vs Big-Theta**
-- **Big-O**: Upper bound only (≤ some function)  
-- **Big-Theta**: Tight bound (= exactly that growth rate)  
-- **O(f(n))**: "Never worse than f(n)"  
-- **Θ(f(n))**: "Always exactly f(n)"  
-- **Merge sort**: O(n log n) = worst-case guarantee  
-- **Merge sort**: Θ(n log n) = exact runtime  
-- **Stack push**: Θ(1) = exactly 2-3 steps always  
-- **If Θ proven → O automatically true**  
-- **O proven → Θ not guaranteed**  
-- **Ex: O(n²) might actually be n runtime**
+2. How is memoization related to DP?
+Memoization is a Dynamic Programming technique (top-down approach).
+It stores results of subproblems so they can be reused instead of recalculated.
 
-## 2. What does worst-case represent?
+3. Space impact of memoization
+Memoization requires extra memory of O(n) to store computed results.
+It also uses recursion stack space.
 
-**Answer**  **Worst-case represents the MAXIMUM time/space an algorithm takes for ANY possible input.**
-- **Definition**: Slowest possible execution across all input scenarios  
-- **Purpose**: Guarantees "even in worst input, won't exceed this"  
-- **Linear Search Example**:  
-  - Best: item at position 1 → 1 comparison  
-  - Worst: item at end OR absent → n comparisons  
-  - **Worst-case = O(n)**  
-- **Stack Push Example**:  
-  - Every case identical → 2 operations  
-  - **Worst-case = Θ(1)** (same as best)  
-- **Why Care?**:  
-  - **Safety guarantee** for production code  
-  - "My app won't freeze even on bad data"  
-- **Real Meaning**:  
-  - **O(n)** worst-case = "might need to check all n items"  
-  - Protects against adversarial/malicious inputs
+=============================
+TOWER OF HANOI
+=============================
 
-## 3. Why complexity matters in real systems?
+1. Why are moves equal to (2^n - 1)?
+The recurrence relation is:
+T(n) = 2T(n-1) + 1  
+Solving this gives:
+T(n) = 2^n - 1
 
-**Answer**  Algorithm complexity determines if your system scales or crashes under real load.
-**Real-World Impact**
-1M users → O(n²) = 10¹² operations = freeze
-1M users → O(n log n) = 2×10⁷ operations = smooth
-Google search: O(n²) would take years per query
-**Instagram feed:** Bad complexity = loading forever
+2. What is the recursion tree idea?
+At each step, the problem is divided into two smaller subproblems.
+This creates a tree structure where the number of calls grows exponentially.
 
+3. Practical risk of exponential algorithms
+Exponential algorithms become impractical very quickly.
+Even a small increase in input size leads to a huge increase in time and memory usage.
 
-## ➡️ Recursive Factorial
+=============================
+RECURSIVE BINARY SEARCH
+=============================
 
-## 1. What is recursion depth?
+1. Why is sorted data required?
+Binary search works by eliminating half of the search space at each step.
+This is only possible when the data is sorted.
 
-**Answer**  Recursion depth is the maximum number of recursive calls stacked before hitting base case.
-**Definition:** Count of nested function calls on call stack
-**Example:** factorial(5) → 5→4→3→2→1→base = depth 5
-**Stack usage:** Each call adds 1 stack frame
-**Limit:** Python default = 1000 calls 
-**Problem:** Depth > limit → Stack Overflow crash
-**Stack Push Connection:** Each recursive call = stack.push(context)
+2. Best, average, and worst case
+Best case → element found immediately (O(1))  
+Average case → O(log n)  
+Worst case → O(log n)
 
-## 2. Why recursion uses stack memory?
+3. What is Divide and Conquer?
+It is a technique where:
+- The problem is divided into smaller parts
+- Each part is solved recursively
+- The results are combined to form the final solution
 
-**Answer** Recursion uses stack memory because each recursive call creates a new function frame pushed onto the call stack.
-**Function call =** stack frame creation (parameters, return address, local vars)
-**Recursive call =** nested stack frames (each call pushes new frame)
-**factorial(5) →** 5 stack frames created before base case
-stack.pop() each return removes top frame
-**LIFO perfect match:** Last called function finishes first
-**No recursion →** no deep stack usage (just normal function calls)
-**Stack overflow =** too many nested frames (recursion depth limit hit)
-
-## 3. When iteration is better than recursion?
-
-**Answer**  Iteration beats recursion when performance + safety matters most.
-**Large inputs:** No stack overflow risk (recursion limited ~1000 calls)
-**Performance critical:** No function call overhead (10-50x faster loops)
-**Memory tight:** O(1) space vs O(n) stack frames
-**Simple loops:** Factorial, sum, array processing
-**Production code:** Guaranteed no crashes under heavy load
-
-
-## ➡️ Fibonacci
-
-## 1. Why naive Fibonacci is slow?
-
-**Answer** Naive Fibonacci is slow due to massive redundant calculations creating exponential time complexity.
-
-## 2. Memoization relates to DP ?
-
-**Answer**  Yes, memoization is a core technique of Dynamic Programming (top-down approach).
-**Memoization:** Cache recursive results to avoid recomputation
-**DP:** Solve subproblems once, store results, build solution
-**Memoization =** Recursive DP (top-down with cache)
-**Tabulation =** Iterative DP (bottom-up with table)
-**Both solve:** Same subproblem → same answer (overlapping subproblems)
-
-## 3. Space impact of memoization?
-
-**Answer** Memoization trades time for space - adds O(n) memory overhead.
-**Cache storage:** O(n) array/dict for all subproblem results
-**Recursion stack:** O(n) frames (depth = n for Fibonacci)
-**Total:** O(n) extra space beyond input
-
-## ➡️ Tower Of Hanoi
-
-## 1. Why moves are 2n-1?
-**Answer**
-
-## 2. What is recursion tree idea?
-
-**Answer**  Tower of Hanoi needs exactly 2^n - 1 moves minimum.
-To move n disks from A→C using B:
-1. Move n-1 disks A→B: T(n-1) moves
-2. Move largest disk A→C: 1 move  
-3. Move n-1 disks B→C: T(n-1) moves
-T(n) = 2*T(n-1) + 1
-T(1) = 1
-**Solution:** T(n) = 2^n - 1 
-
-
-## 3. Practical risk of exponential algorithms?
-
-**Answer**  Exponential algorithms crash real systems beyond tiny inputs.
-**Practical Risks**
-**n=30:** 1 billion operations = 10+ seconds (maybe OK)
-**n=40:** 1 trillion operations = 10+ DAYS (dead)
-**n=50:** 1 quadrillion = 30+ YEARS (impossible)
-**Memory:** 2^n RAM → n=30 = 8GB, n=40 = 1TB+
-
-
-## ➡️ Recursive Binary Search
-
-## 1. Why sorted data is required?
-
-**Answer**  Sorted data enables log n algorithms instead of linear n searches.
-**Binary Search:** Unsorted = O(n), Sorted = O(log n)
-**Merge operations:** Requires order to combine efficiently
-**Kth smallest:** Direct index access O(1) after sort
-**Duplicate removal:** Adjacent equals after sorting
-
-## 2. Best/avg/worst case?
-
-**Answer**  Best/Avg/Worst case measures algorithm performance across input scenarios.
-**Best Case:** Minimum operations (ideal input)
-**Linear search:** target at index 0 = 1 comparison
-**Worst Case:** Maximum operations (bad input)
-**Linear search:** target absent = n comparisons
-**Average Case:** Expected operations (random input)
-**Linear search:** target anywhere = n/2 comparisons avg
-
-## 3. Divide & Conquer meaning?
-
-**Answer** Divide & Conquer breaks big problems into smaller identical problems recursively.
-**3-Step Process**
-**Divide:** Split problem into 2+ subproblems (usually half size)
-**Conquer:** Solve subproblems recursively (or directly if small)
-**Combine:** Merge subproblem solutions into original answer
-
-
+=============================
+FINAL NOTE
+=============================
+The main goal of studying algorithms is to choose solutions that perform efficiently and scale well with increasing input size.
