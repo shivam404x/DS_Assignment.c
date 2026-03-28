@@ -1,57 +1,65 @@
 
-# FIBONACCI (NATIVE V/S MEMORIZED)
+# FIBONACCI COMPARISON (NORMAL vs OPTIMIZED)
 
-# NATIVE : CALCULATOR WITHOUT MEMORY (RECOUNTS EVERYTHING)
-# MEMORIZED : CALCULATOR WITH MEMORY BUTTON (STORES ANSWERS)
+# Idea:
+# 1. Simple recursion → baar-baar same calculation (slow)
+# 2. Memoization → ek baar calculate karke store (fast)
 
-def fib_naive(n, calls=[0]): # function defination with a default value of calls=[0]
+# ------------------ NORMAL RECURSION ------------------
 
-    calls[0] += 1  # counting each call
+def fib_basic(n, counter):
 
-    if n <= 1:  # base case
+    counter[0] += 1   # har function call count kar rahe hain
+
+    if n <= 1:
         return n
-    
-    return fib_naive(n-1, calls) + fib_naive(n-2, calls)  # recursive case
+
+    return fib_basic(n-1, counter) + fib_basic(n-2, counter)
 
 
-# function defination with calls=[0] and cache={} - smart fibonacci
-def fib_memo(n, calls=[0], cache={}):  
+# ------------------ MEMOIZATION VERSION ------------------
 
-    calls[0] += 1  # counting each call
+def fib_fast(n, counter, memory):
 
-    if n in cache:   # running for loop and checking it cache already have the particular value - SUPER FAST CALCULATION
-        return cache[n]  # returning that particular value 
-    
-    if n <= 1:  # base case + saving info in cache
-        cache[n] = n
+    counter[0] += 1
+
+    # agar already calculate ho chuka hai
+    if n in memory:
+        return memory[n]
+
+    if n <= 1:
+        memory[n] = n
         return n
-    
-    # calculating the values and saving it to the cache + returning it
-    cache[n] = fib_memo(n-1, calls, cache) + fib_memo(n-2, calls, cache)
-    return cache[n]
+
+    # calculate + store
+    value = fib_fast(n-1, counter, memory) + fib_fast(n-2, counter, memory)
+    memory[n] = value
+
+    return value
 
 
-print("n\tfib(n)\tNaive Calls\tMemo Calls")  # headings of the table
-print("---------------------------------------------")
+# ------------------ TESTING ------------------
 
-tests = [10, 20, 30]  # lab test case
+print("n | fib(n) | basic calls | optimized calls")
+print("------------------------------------------")
 
-for n in tests:
-    # reseting all the values before every step and then comparing
-    naive_calls = [0]
-    memo_calls = [0]
-    memo_cache = {}
-    
-    naive_result = fib_naive(n, naive_calls)  # calling the fib_naive function
-    memo_result = fib_memo(n, memo_calls, memo_cache)  # calling the fib_memo function
+test_values = [10, 20, 30]
 
-   # to get result in tabular form 
-    print(f"{n}\t{naive_result}\t{naive_calls[0]}\t\t{memo_calls[0]}")   
+for num in test_values:
+
+    basic_count = [0]
+    fast_count = [0]
+    memory_store = {}
+
+    ans1 = fib_basic(num, basic_count)
+    ans2 = fib_fast(num, fast_count, memory_store)
+
+    print(f"{num} | {ans1} | {basic_count[0]} | {fast_count[0]}")
 
 
-# explanation 
-print("\nMemoization Analysis:")
-print("Naive: Exponential calls (2^n growth)")
-print("Memoized: Linear calls (2n growth only)") 
-print("Savings: 99.99% fewer function calls!")
+# ------------------ SUMMARY ------------------
 
+print("\n=== Observation ===")
+print("Basic recursion → bahut zyada calls (exponential growth)")
+print("Memoization → kaafi kam calls (almost linear)")
+print("Reason: duplicate work avoid ho jata hai")
