@@ -1,121 +1,108 @@
 
-# COMPLEXITY DRILL (OPEATION COUNTING)
+# COMPLEXITY PRACTICE DRILL:-
 
-# DEVELOPING INTUITION FOR TIME/SPACE COMPLEXITY USING SIMPLE LOOP 
-# STRUCTURES AND CASE ANALYSIS .
+# Ye program different loop patterns ko use karke
+# time complexity samajhne me help karta hai.
 
-# 1. SINGLE LOOP - O(n)
+# ------------------ 1. SIMPLE LOOP (O(n)) ------------------
 
-def single_loop(n):   # function defination
+def simple_loop(n):
 
-    count=0
+    operations = 0
 
-    for i in range(n):  
-         # running single for loop and counting the number of iterations of the 
-         # loop for checking its time complexity .
-        count+=1
+    for i in range(n):
+        operations += 1
 
-    print("Number of operations performed :",count)  # printing the number of iterations (operations)
-    print("Time Complexity - O(n)") # time complexity of single loop
-    print(f"Justification : Loop runs {n} times exactly .")  # justification of the time complexity
-    print("Linear growth with input size.")
+    print("\n[Simple Loop]")
+    print("Operations:", operations)
+    print("Time Complexity: O(n)")
+    print(f"Reason: loop exactly {n} baar chala → linear growth")
 
 
+# ------------------ 2. DOUBLE LOOP (O(n^2)) ------------------
 
-# 2. NESTED LOOP - O(n^2)
+def double_loop(n):
 
-def nested_loop(n):  # function defination
+    operations = 0
 
-    count=0
-
-# running two loops i.e. nested for loop and counting the number of iterations for time complexity
     for i in range(n):
         for j in range(n):
-            count+=1
+            operations += 1
 
-    print(f"Number of operations performed : {count}")  # printing the number of iterations (operations)
-    print("Time Complexity - O(n^2)")  # time complexity of nested loop
-    print(f"Justification : Outer loop runs {n} times, inner loop runs {n} times each.")  # justification of time complexity
-    print("Quadratic Growth - disastrous for large n.")
+    print("\n[Double Loop]")
+    print("Operations:", operations)
+    print("Time Complexity: O(n^2)")
+    print(f"Reason: {n} × {n} = {n*n} operations")
 
 
+# ------------------ 3. TRIANGLE PATTERN LOOP ------------------
 
-# 3. TRIANGULAR LOOP - O(n^2)
+def triangle_loop(n):
 
-def triangular_loop(n):  # function defination
+    operations = 0
 
-    count=0
-
-# running a triangular loop (i.e. loops in which the inner loop runs different number of times as compared to outter loop)
-# for counting the number of iteration to calculate the time complexity
-    for i in range(1,n+1):  
+    for i in range(1, n + 1):
         for j in range(i):
-            count+=1
+            operations += 1
 
-    print(f"Number of operations performed : {count}")  # printing the number of iterations (operations)
-    print("Time Complexity - O(n^2)")  # time complexity of triangular loop
-    print(f"Justification : Inner loop is sum to ({n}**2)/2 , n^2/2 operations.")  # justifiaciton of the time complexity
-    print("Quardratic Growth - despite it is triangular pattern.")
-
-
-
-# 4. HALVING LOOP - O(log(n))
-
-def halving_loop(n):  # defining the function
-
-    count=0
-    size=n  
-
-    while size>0:  # running while loop 
-        count+=1
-        size//=2   # halfing the size of the loop
-
-    print(f"Number of operations performed : {count}")  # printing the number of iterations (operations)
-    print("Time Complexity : O(log(n))")  # time complexity of halving loops
-    print("Justification : loop runs log base 2 n times.")  # justification of the time complexity
-    print("Size halves each iteration.")
+    print("\n[Triangle Loop]")
+    print("Operations:", operations)
+    print("Time Complexity: O(n^2)")
+    print("Reason: total ≈ n(n+1)/2 → still quadratic")
 
 
+# ------------------ 4. HALF REDUCTION LOOP ------------------
 
-def linear_search_cases():   # PRINT LINEAR SEARCH CASES
- 
-    print("\n Linear Search Case Analysis.")
-    print("Best Case : O(1)")
-    print("Example : Element at first position.")
-    print("Average Case : O(n)")
-    print("Example : Element in middle of the list.")
-    print("Worst Case : O(n)")
-    print("Example : Element at end or absent.")
+def log_loop(n):
 
+    operations = 0
+    value = n
 
-def binary_search_cases():  # PRINT BINARY SEARCH CASES
+    while value > 0:
+        operations += 1
+        value = value // 2   # har step me half
 
-    print("\n Binary Search Case Analysis (SORTED DATA REQUIRED !)")
-    print("Best Case : O(1)")
-    print("Example : Element at middle position.")
-    print("Average Case : O(log(n))")
-    print("Example : After few divisions.")
-    print("Worst Case : O(log(n))")
-    print("Example : After maximum division.")
+    print("\n[Halving Loop]")
+    print("Operations:", operations)
+    print("Time Complexity: O(log n)")
+    print("Reason: har step me size half ho raha hai")
 
 
-# MAIN DRIVER CODE
-def main():
-    n=int(input("Enter value of n :"))  
-    # taking the number of iterations as an input from the user
+# ------------------ SEARCH CASES ------------------
 
-    print("\n===Complexity Demo===")
+def linear_search_info():
 
-    # CALLING ALL THE FUNCTIONS IN THE MAIN FUNCTION
-    single_loop(n)  
-    nested_loop(n)
-    triangular_loop(n)
-    halving_loop(n)
-
-    linear_search_cases()
-    binary_search_cases()
+    print("\n[Linear Search Cases]")
+    print("Best Case   → O(1)   (first element)")
+    print("Average     → O(n)")
+    print("Worst Case  → O(n)   (last ya absent)")
 
 
-if __name__=="__main__":
-    main()  # calling the main function
+def binary_search_info():
 
+    print("\n[Binary Search Cases] (sorted array needed)")
+    print("Best Case   → O(1)   (middle element)")
+    print("Average     → O(log n)")
+    print("Worst Case  → O(log n)")
+
+
+# ------------------ MAIN FUNCTION ------------------
+
+def run():
+
+    n = int(input("Enter n value: "))
+
+    print("\n==== Complexity Analysis ====")
+
+    simple_loop(n)
+    double_loop(n)
+    triangle_loop(n)
+    log_loop(n)
+
+    linear_search_info()
+    binary_search_info()
+
+
+# Program start point
+if __name__ == "__main__":
+    run()
