@@ -1,73 +1,72 @@
+# RECURSIVE BINARY SEARCH (USER-FRIENDLY VERSION)
 
-# RECURSSIvE BINARY SEARCH
+# Binary Search ek efficient technique hai jo sorted array me
+# kisi element ko dhoondhne ke liye use hoti hai.
+# Yeh recursion ka use karke har step me search space ko half kar deta hai.
 
-# IMPLEMENTING THE BINARY SEARCH RECURSSIVELY 
-# AND EXPLAINING ITS TIME COMPLEXITY - O(LOG(N))
+def binary_search(arr, target, start, end):
 
-# RECURSIVE BINARY SEARCH IS AN ALGORITHM THAT FINDS A TARGET ELEMENT FROM A SORTED
-#  ARRAY BY REPEATEDLY DIVIDING THE SEARCH INTERVAL IN HALF USING RECURSSION.
+    # Base Case 1: agar range invalid ho gayi (element nahi mila)
+    if start > end:
+        print(f"{target} array me nahi mila ❌")
+        return -1
 
-def binarySearch(arr, key, low, high):  # DEFINING THE MAIN RECURSSIVE BINARY SEARCH FUNCTION
+    # Middle index nikalna (safe formula)
+    mid = start + (end - start) // 2
 
-    # arr - sorted array
-    # key - value to find
-    # low - starting index
-    # high - ending index
+    # Debug info (optional - samajhne ke liye useful)
+    print(f"Range: [{start}, {end}] | Mid: {mid} | Value: {arr[mid]}")
 
-    if low > high:  # base case - 1
-        # if low > high - means empty range
-        print(f"Key {key} NOT FOUND")
-        return -1  # give -1 i.e. standard convention
-    
-    mid = low + (high - low) // 2  # finding the middle index
-    # if we find it like (low + high)//2 - overflow risk
-    # safe method is low + (high-low)//2 - overflow avoided
-    
-    print(f"low={low}, high={high}, mid={mid}, arr[mid]={arr[mid]}") 
-     # debug trance - shows every steps including current range + mid value
-    
-    if arr[mid] == key:  # base case -2 
-        # found the key no more recurssion will return the index where it is found
+    # Base Case 2: element mil gaya
+    if arr[mid] == target:
+        print(f"{target} mil gaya at index {mid} ✅")
         return mid
-    
-    elif arr[mid] > key:  
-# key is smaller - left half search and size is halfed, new smaller range - (low,mid-1)
-        return binarySearch(arr, key, low, mid-1)
-    
+
+    # Agar target chhota hai → left side me search
+    elif target < arr[mid]:
+        return binary_search(arr, target, start, mid - 1)
+
+    # Agar target bada hai → right side me search
     else:
-# key is larger - right half search and again size is halfed (i.e. logarithmic reduction) , 
-# new smaller range - (mid+1, high)
-        return binarySearch(arr, key, mid+1, high)
+        return binary_search(arr, target, mid + 1, end)
 
 
-# testing 
+# ================== TESTING ==================
 
-print("=== BINARY SEARCH DEMO ===")
-arr = [1, 3, 5, 7, 9, 11, 13, 15]  # testing the code with this sorted and even length array
- 
- 
-print("\n1. FOUND case:")  # if key exists give at index 3
-print("Index:", binarySearch(arr, 7, 0, len(arr)-1))
+print("==== Binary Search Test ====")
+
+nums = [2, 4, 6, 8, 10, 12, 14]
+
+print("\nCase 1: Element present")
+result = binary_search(nums, 8, 0, len(nums)-1)
+print("Result Index:", result)
+
+print("\nCase 2: Element absent")
+result = binary_search(nums, 5, 0, len(nums)-1)
+print("Result Index:", result)
+
+print("\nCase 3: Empty array")
+empty = []
+result = binary_search(empty, 3, 0, len(empty)-1)
+print("Result Index:", result)
 
 
-print("\n2. NOT FOUND case:")  # if key missing is return -1 (handles missing key correctly)
-print("Index:", binarySearch(arr, 8, 0, len(arr)-1))
+# ================== TIME COMPLEXITY ==================
 
+print("\n==== Time Complexity ====")
 
-print("\n3. EMPTY array:")  # if empty array 
-empty_arr = []  
-print("Index:", binarySearch(empty_arr, 5, 0, len(empty_arr)-1))
+print("""
+Har step me:
+- Sirf ek comparison hota hai → O(1)
+- Aur problem size half ho jata hai → n/2
 
+Isliye recurrence relation:
+T(n) = T(n/2) + O(1)
 
-print("\n=== RECURRENCE EXPLANATION ===")  # explanation of time complesity
+Steps:
+n → n/2 → n/4 → n/8 → ... → 1
 
-print('''T(n) = Time to solve array size n
-Each step:
-1. O(1) work (mid calculate + compare)
-2. T(n/2) recursive call (half size)
-T(n) = T(n/2) + O(1)     <- RECURRENCE RELATION
-''')
+Total steps ≈ log(n)
 
-print("T(n) = T(n/2) + O(1)")
-print("n=8 → 4 → 2 → 1 → O(log n)")
-
+Final Time Complexity = O(log n)
+""")
