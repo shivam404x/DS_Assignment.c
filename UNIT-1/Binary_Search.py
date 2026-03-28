@@ -1,4 +1,4 @@
-# RECURSIVE BINARY SEARCH (USER-FRIENDLY VERSION)
+# RECURSIVE BINARY SEARCH :-
 
 # Binary Search ek efficient technique hai jo sorted array me
 # kisi element ko dhoondhne ke liye use hoti hai.
