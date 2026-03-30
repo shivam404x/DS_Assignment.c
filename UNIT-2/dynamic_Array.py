@@ -1,61 +1,68 @@
+# DYNAMIC ARRAY (RESIZE + POP) 
 
-# DYNAMIC ARRAY SIMULATION (RESIZE + POP)
+class DynArray:
 
-# UNDERSTANDING HOW DYNAMIC ARRAYS GROW AND WHY APPEND IS AMORTIZED O(1).
-
-# DYNAMIC ARRAY : Array that automatically resizes (usually doubles) when full, allowing variable
-#                 size unlike fixed arrays. Append is amortized O(1) due to rare resizes.
-
-# ANSWER :
-
-class DynamicArray:  # creating a class - (blueprint)
     def __init__(self):
-        self.size = 0        # Number of elements - setting 0
-        self.capacity = 4    # Initial capacity - fixing the length
-        self.array = [None] * self.capacity  # creating four length empty array
-    
-    def print_state(self):
-        # this only shows the first size elements and ignores unused chairs
-        print(f"Size: {self.size}, Capacity: {self.capacity}, Array: {' '.join(map(str, self.array[:self.size]))}")
-    
-    def append(self, value):
-        if self.size == self.capacity:  # when the array is full 
-            # RESIZE: Double the capacity of the array
-            old = self.array
-            self.capacity *= 2 
-            self.array = [None] * self.capacity  # creating a bigger array with none
-            for i in range(self.size):  # moving all the elements to the new array 
-                self.array[i] = old[i]
-            print(f"RESIZED: {self.capacity//2} → {self.capacity}")  # printing the message
-        
-        self.array[self.size] = value # always entering the values to the next empty place available 
-        self.size += 1  # increasing the size count by 1
-    
-    def pop(self):
+        self.count = 0              # current elements count
+        self.cap = 4                # starting capacity
+        self.data = [None] * self.cap   # initial storage
 
-        # checking whether the array is empty if empty printing messages and returning none
-        if self.size == 0:  
-            print("Empty array")
+
+    def show(self):
+        # sirf filled part print karega (unused ignore)
+        current = " ".join(str(x) for x in self.data[:self.count])
+        print(f"Count: {self.count}, Capacity: {self.cap}, Data: {current}")
+
+
+    def push(self, val):
+
+        # agar array full ho gaya
+        if self.count == self.cap:
+
+            old_data = self.data
+            self.cap = self.cap * 2   # capacity double
+
+            self.data = [None] * self.cap   # new bigger array
+
+            # old elements copy karna
+            for i in range(self.count):
+                self.data[i] = old_data[i]
+
+            print(f"Resized from {self.cap//2} to {self.cap}")
+
+        # next empty index pe value daalna
+        self.data[self.count] = val
+        self.count += 1
+
+
+    def remove(self):
+
+        # empty check
+        if self.count == 0:
+            print("Array empty hai")
             return None
-        
-        self.size -= 1 # decreasing the size count by 1
-        popped = self.array[self.size]  # saving which element left
-        self.array[self.size] = None  # Optional: clear slot
-        print(f"Popped: {popped}")  # printing message and returning popped
-        return popped
 
-# Lab Demo - testing the code by running all the functions created
+        self.count -= 1
+        val = self.data[self.count]   # last element
+        self.data[self.count] = None  # slot clear
+
+        print(f"Removed: {val}")
+        return val
+
+
+# ------------------ DEMO ------------------
+
 print("Dynamic Array Demo")
-da = DynamicArray() # object creation
 
-# Append sequence (triggers resize)
-print("\n--- APPEND OPERATIONS ---")
-da.append(10); da.print_state()
-da.append(20); da.print_state()
-da.append(30); da.print_state()
-da.append(40); da.print_state()  # Triggers resize 4→8
-da.append(50); da.print_state()
+arr = DynArray()
 
-print("\n--- POP OPERATIONS ---")
-da.pop(); da.print_state()
-da.pop(); da.print_state()
+print("\n--- ADD OPERATIONS ---")
+arr.push(10); arr.show()
+arr.push(20); arr.show()
+arr.push(30); arr.show()
+arr.push(40); arr.show()   # resize yaha hoga (4 → 8)
+arr.push(50); arr.show()
+
+print("\n--- REMOVE OPERATIONS ---")
+arr.remove(); arr.show()
+arr.remove(); arr.show()
