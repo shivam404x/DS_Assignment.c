@@ -1,110 +1,93 @@
+# 2D ARRAY (MATRIX OPERATIONS + TRAVERSAL)
 
-# ARRAY 2D (MATRIX TRAVERSAL + OPERATIONS)
+# A 2D array represents data in rows and columns.
+# Access format: matrix[row][column]
 
-# PRACTISING 2D ARRAYS FOR REAL-WORLD TABULAR DATA AND UNDERSTAND TRAVERSAL COMPLEXITY.
+# ------------------ DISPLAY FUNCTION ------------------
 
-# 2-D ARRAY : A two-dimensional (2D) array is an array of arrays, organizing data into rows and columns like
-#             a table or matrix. Elements are accessed using two indices: one for the row and one for the column.
+def display_matrix(mat):
+    for r in mat:
+        print(" ".join(str(val) for val in r))
 
-# ANSWER : 
 
-# defining a function print_matrix taking a matrix as an input 
-def print_matrix(matrix):
-    for row in matrix: # traversing each row of the matrix
+# ------------------ ROW SUM FUNCTION ------------------
 
-        # map(str,row) : converts numbers from int form to string form in a list [10,12]->['10','12']
-        # ' '.join() : connects the string formed in map to string with spaces ('10 20')
-        # and printing the final output
-        print(' '.join(map(str, row)))  
-
-# defining a new function row_sums taking a matrix as an input
-def row_sums(matrix):
+def calculate_row_sums(mat):
     print("\nRow Sums:")
 
-    # looping through the matrix using enumerate
-    ''' 
-        enumerate(matrix) : is a python built-in function that iterated over a matrix (a list of list), 
-        yielding pairs of an index and each row for easy access to row positions. 
+    for index, r in enumerate(mat):
+        total = sum(r)
+        print(f"Row {index}: {total}")
 
-        eg :- For matrix = [[1, 2], [3, 4], [5, 6]], the loop for i, row in enumerate(matrix): gives:
-        i=0, row=[1, 2]
-        i=1, row=[3, 4]
-        i=2, row=[5, 6] 
-    '''
-    for i, row in enumerate(matrix):
-        total = sum(row)  # adding all the elements of the row of the matrix
-        print(f"Row {i}: {total}")  # printing each row total sum with the row index.
 
-# defining a function columns_sums that will sum the elements of the columns in
-# the matrix and takes a matrix as an input
-def column_sums(matrix):
+# ------------------ COLUMN SUM FUNCTION ------------------
 
-    if not matrix or not matrix[0]:  # checking if the matrix is empty 
-        print("Empty matrix")
+def calculate_column_sums(mat):
+
+    if not mat or not mat[0]:
+        print("Matrix is empty")
         return
-    cols = len(matrix[0])  # counting the number of columns in the matrix
 
     print("\nColumn Sums:")
 
-    # outer loop : for iterating each columns
-    for j in range(cols):
-        columns_total=0  # initializing the columns_totals = 0
-        for i in range(len(matrix)):  # inner loop : adds all the elements in columns j
-            columns_total=columns_total+matrix[i][j]  # adding the cells 
-        print(f"Col {j}: {columns_total}")  # printing the total with the column numbers
-        
-# defining the search_value function for searching values in the matrix that takes 
-# matrix and target element as an input
-def search_value(matrix, target):
-    print(f"\nSearch for {target}:")
-    found = False  # initializing the found variable as False
+    num_cols = len(mat[0])
 
-    # looping through the matrix each elements 
-    for i in range(len(matrix)): # outer loop - till the length of the matrix
-        for j in range(len(matrix[0])):  # inner loop - till the length of the one row of the matrix
+    for c in range(num_cols):
+        total = 0
+        for r in range(len(mat)):
+            total += mat[r][c]
 
-            if matrix[i][j] == target: # if element is found
-                print(f"Found at position ({i}, {j})")  # printing its position
-                found = True # setting the found as True
-                return  # Stopping after the first match of the element
-            
-    if not found: # if element is not found - printing message
-        print("Not found")
+        print(f"Column {c}: {total}")
 
-# defining a function transpose that will calculate the transpose of the matrix
-# and takes matrix as an input
-def transpose(matrix):
 
-    # checking that the matrix is empty or not
-    if not matrix or not matrix[0]:
-        print("\nTranspose: Empty")
+# ------------------ SEARCH FUNCTION ------------------
+
+def find_value(mat, key):
+    print(f"\nSearching for {key}:")
+
+    for i in range(len(mat)):
+        for j in range(len(mat[0])):
+
+            if mat[i][j] == key:
+                print(f"Value found at ({i}, {j})")
+                return
+
+    print("Value not found")
+
+
+# ------------------ TRANSPOSE FUNCTION ------------------
+
+def transpose_matrix(mat):
+
+    if not mat or not mat[0]:
+        print("Empty matrix")
         return
-    
-    # calculating the length of rows and cols
-    rows, cols = len(matrix), len(matrix[0])
 
-    # Creating an empty transpose matrix 
-    trans = [[0] * rows for _ in range(cols)]
-    # Filling the elements in it with nested loops
-    for j in range(cols):           # Outer loop: create each new row
-        for i in range(rows):      # Inner loop: fill each position in that row
-            trans[j][i] = matrix[i][j]
-        print("\nTranspose Preview:")
-        print_matrix(trans) # finally printing the output
+    rows = len(mat)
+    cols = len(mat[0])
+
+    result = [[0 for _ in range(rows)] for _ in range(cols)]
+
+    for i in range(rows):
+        for j in range(cols):
+            result[j][i] = mat[i][j]
+
+    print("\nTranspose Matrix:")
+    display_matrix(result)
 
 
-# Main demo matrix - testing the above code
+# ------------------ DEMO ------------------
+
 matrix = [
     [1, 2, 3, 4],
     [5, 6, 7, 8],
     [9, 10, 11, 12]
 ]
 
-# calling all the functions for testing
 print("Original Matrix:")
-print_matrix(matrix)
+display_matrix(matrix)
 
-row_sums(matrix)
-column_sums(matrix)
-search_value(matrix, 7)
-transpose(matrix)
+calculate_row_sums(matrix)
+calculate_column_sums(matrix)
+find_value(matrix, 7)
+transpose_matrix(matrix)
