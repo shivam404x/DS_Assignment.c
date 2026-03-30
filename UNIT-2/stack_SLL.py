@@ -1,89 +1,111 @@
-
-# STACK USING SLL + PARENTHESES CHECKER
-
-# BUILDING STACK USING LINKED LIST AND APPLY TO BRACKET VALIDATIONS.
-
-# STACK USING SLL : Stack implemented on top of SLL where top pointer = stack top. 
-#                   Push/pop at head (O(1)). LIFO order using SLL nodes.
-
-# ANSWER :
+# STACK USING SLL + PARENTHESES VALIDATION
 
 class Node:
-    def __init__(self, data):
-        # each node contains data and points to the next node
-        self.data = data
-        self.next = None
+    def __init__(self, val):
+        self.data = val        # node ka value
+        self.next = None       # next node ka link
 
-class Stack:
+
+class LinkedStack:
+
     def __init__(self):
-        self.top = None  # setting the top most element none 
-        # as initially there is nothing in the stack
+        self.head = None       # stack ka top (head hi top hai)
+
+
+    # ----------- PUSH -----------
+
+    def push(self, value):
+
+        new_node = Node(value)       # naya node bana
+
+        new_node.next = self.head    # new ka next = current top
+        self.head = new_node         # top update
+
     
-    def push(self, data):
-        new_node = Node(data) # new node created
-        new_node.next = self.top  # new node points to the old top 
-        # (new plate next-> current top plate)
-        self.top = new_node  # top is pointing to the new plate added
-    
+    # ----------- POP -----------
+
     def pop(self):
-        # checking whether the stack is empty or not 
-        # if empty return none
-        if not self.top:
-            return None
-        
-        # otherwise pop the element from the top and save it and set the
-        # top to the next plate and return the popped element
-        popped = self.top.data
-        self.top = self.top.next
-        return popped
-    
+
+        if self.head is None:
+            return None              # stack empty
+
+        removed = self.head.data     # top value store
+        self.head = self.head.next   # top shift
+
+        return removed
+
+
+    # ----------- PEEK -----------
+
     def peek(self):
-        # if the top is none return none otherwise return the top element of the stack
-        if self.top is None:
+
+        if self.head is None:
             return None
-        return self.top.data
-    
-    def is_empty(self):
-        # retuning whether the stack is empty or not (t/f)
-        return self.top is None  
 
-def is_valid_parentheses(s):
-    stack = Stack()  # new empty stack object
-    pairs = {')': '(', ']': '[', '}': '{'}  # pairs or parenthesis dict
-    
-    for char in s:  # looping through the each character
-        if char in pairs:  # Closing bracket - is the bracket is closing ?
-            top = stack.pop()   # take the top opening bracket
-            if top != pairs[char]:  # does it matches with the closing one ?
+        return self.head.data        # current top
+
+
+    # ----------- EMPTY CHECK -----------
+
+    def empty(self):
+        return self.head is None
+
+
+# ----------- PARENTHESES CHECK -----------
+
+def check_parentheses(exp):
+
+    st = LinkedStack()
+
+    pairs = {
+        ')': '(',
+        ']': '[',
+        '}': '{'
+    }
+
+    for ch in exp:
+
+        # closing bracket mila
+        if ch in pairs:
+
+            top = st.pop()   # last opening nikalo
+
+            # agar mismatch ya empty
+            if top != pairs[ch]:
                 return False
-        else:  # Opening bracket
-            stack.push(char)  # push the opening bracket into the stack 
-    
-    return stack.is_empty()  # return if the stack is empty or not 
-    # empty stack means valid parenthesis
+
+        else:
+            # opening bracket push karo
+            st.push(ch)
+
+    # agar end me stack empty hai → valid
+    return st.empty()
 
 
-# Lab Demo - code testing by running all the functions
-print("=== Stack using SLL + Parentheses Checker ===\n")
+# ------------------ DEMO ------------------
 
-# Test Stack Operations
-stack = Stack()
-print("Stack Operations:")
-stack.push(10); print("Push 10")
-stack.push(20); print("Push 20")
-stack.push(30); print("Push 30")
-print(f"Peek: {stack.peek()}")
-print(f"Pop: {stack.pop()}")
-print(f"Peek: {stack.peek()}\n")
+print("=== Stack using SLL Demo ===\n")
 
-# Test Parentheses Checker
-test_cases = [
-    "()", "(())", "({[]})",  # Valid
-    ")(", "(()", "([)]",     # Invalid
-    "", "abc", "((()))"      # Edge cases
+stk = LinkedStack()
+
+print("Push operations:")
+stk.push(10); print("Pushed 10")
+stk.push(20); print("Pushed 20")
+stk.push(30); print("Pushed 30")
+
+print("Top:", stk.peek())
+
+print("Pop:", stk.pop())
+print("Top after pop:", stk.peek())
+
+
+print("\nParentheses Check:")
+
+tests = [
+    "()", "(())", "({[]})",
+    ")(", "(()", "([)]",
+    "", "abc", "((()))"
 ]
 
-print("Parentheses Validation:")
-for s in test_cases:
-    result = is_valid_parentheses(s)
-    print(f"'{s}' → {result}")
+for t in tests:
+    print(f"{t} -> {check_parentheses(t)}")
